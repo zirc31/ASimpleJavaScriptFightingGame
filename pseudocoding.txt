@@ -1,0 +1,93 @@
+BEGIN
+    - Creating phase, planning & theory:
+        - Create a JS Fighting game.
+        - Create Header & Footer.
+            Header will display game details and stats.
+            Footer will display key buttons and some instructions etc. [done]
+        - Create a main-container that will take the whole browser's 100% width and 100% height. [done]
+        - Create a DIV that will holds the character's image, this will be the hero character. [done]
+        - Create a DIV that will holds the enemy's image, this will be the enemy in the game. [done]
+        - Create Menus in the main page. [done]
+            - Press any key to Start!, will display all 3 options. [done]
+                - Start Game [done]
+                - Controls
+                - Credits
+    - Initialization phase:
+        - For testing purposes, will try with divs for now. [done]
+        - Hero Character UI [done]
+        - Enemy UI
+        - Init hero character's div, width, height, border(to see where it is in the page.) [done]
+        - Init enemy character's div, width, height, border(to see where it is in the page.) [done]
+        - Set both div's to absolute [done], so I can freely move the characters around by changing the div's top and left value. [done]
+        - For stats
+    - Add page buttons [done], this will make the hero navigates all throughout the game. [done]
+    - Theory: Find a way to add an event listener of key press, to make the navigation easier. (will not implement if it not enough time.)
+    - Random Enemy Spawn / Respawn [done]
+        Random Respawn from left or right [done]
+            IF random number = Odd, Re/Spawn on right. [done]
+            ELSE Re/Spawn on left. [done]
+        Enemy automatically walk from Right to Left. Then Left to Right.
+    - Possible additional: Game difficulty, and multiple enemy before reaching the Boss Enemy.
+    - Add Boss Enemy, Boss UI
+    - Theory: Game mechanics, to be implemented, hopefully:
+        - When the hero character get close to the enemy, and the character is in Attack mode, the enemy should deplete its life force or HP.
+        - Enemy will die when being hit multiple times and no more life, same with the boss. (will check for gif file of some sort to show that enemy dies).
+        - Hero will die too if he got multiple hits with an enemy or boss.
+        - Hero will reduce/deplete its life force or HP if an enemy get close to him.
+    - Movement mechanics:
+        - for the hero [done] or enemy to go up decrease its top value.
+        - increase top value to go down. [done]
+        - decrease left value to go left. [done]
+        - increase left value to go right. [done]
+        - Since all div are in absolute, all divs will exceed the browser's width and height. So need to check it via If Else statement. [done]
+            IF: the hero or enemy's top value near or is top=0
+                Do not decrease top anymore, so it will not exceed the main-container's top value. [done]
+            ELSE IF: bottom value is near or is = to the max height of the main-container.
+                Do not increase top anymore, so it will not exceed the main-container's max height value. [done]
+            ELSE IF: left value near or is left=0
+                Do not decrease left anymore, so it will not exceed the main-container's left value. [done]
+            ELSE IF: right value near or is = to the main-container's max width.
+                Do not increase left anymore, so it will not exceed the main-container's max width value. [done]
+    - Hero Movement can be via buttons [done] and keypressed (Have added a function and listener to check for keypressed). [done]
+    - Enemy movement [done]
+        Enemy moves facing to its direction, Forward, Up-Forward, Down-Forward. [done]
+    - Boss Movement
+    - Collision: [done]
+        If Enemy's left or right near Hero's Left or Right [done]
+        And if Hero is not it AttackMode status Hero will reduce Life and will bump backwards from where the collision happens.
+    - Enemy and Boss movement will be triggered by a loop of function.
+    - Theory: Will try to figure out a way for some enemy to target or get close to the hero character, like chasing it or attacking it. (will not implement if it not enough time.)
+    - Add Game Status, this will tell if which part of the game is the user in:
+        - Initial // the press any key menu. [done]
+        - Menu // the part that will display, Start Game, Controls, Credits menus. [done]
+        - Controls // not yet implemented. will show game mechanics, buttons, and instruction. 
+            - Mouse:
+                - Click Attack button for the Hero character to attack.
+                - Click Up, Down, Left or Right buttons to move the Hero.
+            - Keyboard:
+                - Press Spacebar or Enter Key for the Hero character to attack.
+                - Press Up, Down, Left or Right Arror Key to move the Hero.
+            - Game Mechanics:
+                - This is a fighting game, where the Hero "This is you" is caught up and being ambush by a group of swarming enemy.
+                - Help the Hero survive the enemy's attack.
+                - You can navigate the Hero Character using Mouse or Keyboard.
+                - You gain Points by defeating the enemy.
+                - Your Hero will lose a Life when an enemy get near or attack the Hero.
+                - Your Hero will die when Hero's Life decreases to 0%.
+        - Credits // not yet implemented. will show attributes where images and other assets are taken from.
+            Design and Coded by ZircAlbon:
+                - Github
+                - Facebook
+            Fonts used:
+                - Google Fonts
+            Hero and Enemy:
+                - Cleanpng.com
+            Background:
+                - Itch.io
+        - GameStart // the GAME ITSELF basic part [done], hero rendering part, enemy rendering, boss rendering part.
+        - Scoreboard
+            Hero Life [done]
+            Level [done]
+            Highscore [done]
+            Score
+END

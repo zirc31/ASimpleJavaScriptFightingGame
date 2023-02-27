@@ -1,0 +1,194 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+    font-family: 'PressStart2P', sans-serif;
+}
+.main-container {
+    width: 100%;
+    height: 100vh;
+    background-image: url("assets/p2-js-game-bg.min.png");
+    background-size: cover;
+    background-position: left top;
+}
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flex-center-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.header, .footer {
+    left:0px;
+    width: 100%;
+    height: 35px;
+    font-size: 0.4rem;
+    text-align: center;
+    position: absolute;
+    line-height: 15px;
+}
+.header {
+    top:15px;
+}
+.game-details-container {
+    color: darkslategrey;
+    text-shadow: -1px 1px #ffffff;
+    font-size: 0.7rem;
+    position: absolute;
+}
+.game-details-container div {
+    margin: 15px 0 0 15px;
+}
+.hero-game-details {
+    color: rgb(0, 48, 84);
+    text-shadow: -1px 1px #ffffff;
+}
+.menu-container {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+.menu-content {
+    width: 100%;
+    height: 70vh;
+}
+.img-title {
+    width: 90%;
+    position: absolute;
+}
+.menu-press-any-key,
+.menu-start-game,
+.menu-controls,
+.menu-credits {
+    width: 50%;
+}
+
+.controls-p-tag div {
+    top: 350px;
+    width: 95%;
+    position: absolute;
+    color: rgb(77, 38, 0);
+    text-shadow: -1px 1px #f8c186;
+    padding-left:5%;
+    /* border: 1px solid red; */
+}
+.controls-p-tag h5 {
+    padding-top: 15px;
+    padding-bottom: 5px;
+    font-size: 0.5rem;
+}
+.controls-p-tag ul li {
+    font-size: 0.4rem;
+    padding-top: 5px;
+}
+.hero-char, .enemy-char {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+}
+.hero-char {
+    width: 54px;
+    height: 53px;
+    background-image: url('assets/hero-char/hero-char_idle1.min.png') ;
+    background-size: 54px 53px;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+}
+.enemy-char {
+    width: 49px;
+    height: 53px;
+    background-image: url('assets/frognemy/frognemy_idle1.min.png') ;
+    background-size: 49px 53px;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+}
+.play-area {
+    position: absolute;
+}
+.btn-container {
+    width: 100%;
+    height: 50px;
+    position: absolute;
+}
+.btn-key {
+    padding: 10px 15px;
+    margin: 0 7px;
+    border-radius: 10px;
+    font-size: 0.5rem;
+}
+.btn-key-clicked {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+}
+.hide {
+    display:none;
+}
+
+/* Media Queries */
+/* Tablet */
+@media only screen and (min-width: 768px){
+    .header {
+        font-size: 0.8rem;
+        line-height: 35px;
+    }
+    .game-details-container {
+        font-size: 0.8rem;
+    }
+    .img-title {
+        width: 75%;
+    }
+    .menu-press-any-key,
+    .menu-start-game,
+    .menu-controls,
+    .menu-credits {
+        width: 25%;
+    }
+    .controls-p-tag div {
+        width: 90%;
+        padding-left: 5%;
+    }
+    .controls-p-tag h5 {
+        font-size: 0.7rem;
+    }
+    .controls-p-tag ul li {
+        font-size: 0.6rem;
+    }
+    .hero-char {
+        width: 90px;
+        height: 88px;
+        background-size: 90px 88px;
+    }
+    .enemy-char {
+        width: 81px;
+        height: 88px;
+        background-size: 81px 88px;
+    }
+    .btn-key {
+        margin: 0 10px;
+    }
+    .footer {
+        font-size: 0.6rem;
+    }
+}
+@media only screen and (min-width: 1024px){
+    .img-title {
+        width: 50%;
+    }
+    .controls-p-tag div {
+        width: 90%;
+        padding-left: 5%;
+    }
+    .controls-p-tag h5 {
+        font-size: 0.7rem;
+    }
+    .controls-p-tag ul li {
+        font-size: 0.7rem;
+    }
+}
