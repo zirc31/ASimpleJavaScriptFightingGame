@@ -17,7 +17,6 @@ header.textContent = ``;
 
 const footer = document.querySelector('.footer');
 footer.innerHTML = `Design and Coded by: ZircAlbon © 2023`;
-// footer.innerHTML = `Design and Coded by: ZircAlbon © 2023 | Photos from <a href="" target="_blank"></a>`;
 let footerPos = getPos(footer);
 footer.style.top = `${windowHeight - (footerPos.height*2)}px`;
 
@@ -70,7 +69,6 @@ function showMenu() {
     menuContent.appendChild( menuInnerDivTag );
     menuInnerDivTag.classList.add(`menu-inner-div-tag`);
     menuInnerDivTag.classList.add(`flex-center-column`);
-    // const menuInnerDivTagClass = document.querySelector('.menu-inner-div-tag');
 
     // initialized Start Game Menu
     const menuStartGameImgTag = document.createElement('img');
@@ -78,7 +76,6 @@ function showMenu() {
     menuStartGameImgTag.classList.add(`menu-start-game`);
     const menuStartGameImgTagClass = document.querySelector('.menu-start-game');
     menuStartGameImgTag.src = `assets/jsgame_menu_start-game_a.png`;
-    // menuStartGameImgTagClass.style.margin = `35px 0 20px 0`;
     menuStartGameImgTagClass.style.margin = `75px 0 20px 0`;
 
     menuStartGameImgTagClass.addEventListener('mouseover', () => {
@@ -89,7 +86,6 @@ function showMenu() {
     });
     menuStartGameImgTagClass.addEventListener('click', () => {
         // clear all before calling the gameStart.
-        // titleImgTag.classList.add(`hide`);
         menuInnerDivTag.classList.add(`hide`);
         menuStartGameImgTag.classList.add(`hide`);
         menuControlsImgTag.classList.add(`hide`);
@@ -114,7 +110,6 @@ function showMenu() {
         menuControlsImgTag.src = `assets/jsgame_menu_controls_a.png`;
     });
     menuControlsImgTagClass.addEventListener('click', () => {
-        // alert(`controls menu clicked`);
         menuStartGameImgTag.classList.add(`hide`);
         menuControlsImgTag.classList.add(`hide`);
         menuCreditsImgTag.classList.add(`hide`);
@@ -186,7 +181,6 @@ function showMenu() {
         menuCreditsImgTag.src = `assets/jsgame_menu_credits_a.png`;
     });
     menuCreditsImgTagClass.addEventListener('click', () => {
-        // alert(`credits menu clicked`);
         window.open("https://github.com/zirc31/ASimpleJavaScriptFightingGame");
     });
 }
@@ -207,6 +201,7 @@ function gameStart() {
         life: 100,
         gameStatus: `ongoing`,
         numberOfEnemy: 0,
+        enemyCounter: 0,
     };
 
     gameDetailsContainer.innerHTML = `
@@ -280,22 +275,13 @@ function gameStart() {
     playAreaPos = getPos(playArea);
     heroChar.style.top = `${(playAreaPos.top+(playAreaPos.height/2))-(heroCharPos.height/2)}px`;
     heroChar.style.left = `${(windowWidth/2)-(heroCharPos.width/2)}px`;
-    // heroChar.style.backgroundSize = `180px 176px`; // for larger screens
-    // heroChar.style.backgroundSize = `90px 88px`; // for tablet
-    // heroChar.style.backgroundSize = `54px 53px`; // for mobile
 
     // initialized enemy character
     function generateEnemy(generateQty,gameLevel) {
-
         gameDetails.level = gameLevel;
+        gameDetails.numberOfEnemy = generateQty;
+        gameDetails.enemyCounter = generateQty;
 
-        // console.log(gameDetails.level);
-        // console.log(gameDetails.highscore);
-        // console.log(gameDetails.score);
-        // console.log(gameDetails.life);
-        // console.log(gameDetails.gameStatus);
-        // console.log(gameDetails.numberOfEnemy);
-        
         // spawn enemy
         const enemyContainer = new Array;
         let enemyChar = new Array;
@@ -354,7 +340,6 @@ function gameStart() {
             // IF even respawn left, if odd respawn right.
             if(randomOddEven % 2 == 0 ) {
                 enemyChar[enemyCount].style.left = `${playAreaPos.left+1}px`;
-                // enemyChar[enemyCount].textContent = `${enemyCount}`;
 
                 // Initialized Enemy object.
                 // respawn to left facing right.
@@ -363,7 +348,6 @@ function gameStart() {
                 enemyCharObj[enemyCount].position = enemyCharPos[enemyCount];
             } else {
                 enemyChar[enemyCount].style.left = `${playAreaPos.right-enemyCharPos[enemyCount].width-1}px`;
-                // enemyChar[enemyCount].textContent = `${enemyCount}`;
 
                 // Initialized Enemy object.
                 // respawn to right facing left.
@@ -376,7 +360,7 @@ function gameStart() {
         // this will passed enemy's object to make the enemy do an action repeatedly.
         for(enemyCount = 0; enemyCount < generateQty; enemyCount++ ) {
             // generate an array of enemy, and designate who will be alpha.
-            // will stil ladd function for it
+            // will still add function for it
 
             // call enemy function
             enemyWalk(enemyCharObj[enemyCount]);
@@ -409,8 +393,7 @@ function gameStart() {
             function enemyAction() {
                 statsUpdate();
 
-                // onque
-                // console.log(gameDetails.life);
+                // check if hero is dead. then Game Over.
                 if( gameDetails.life <= 0 ) {
                     if( heroObj.heroStatus != `dead` ) {
                         renderHeroAction('death');
@@ -424,7 +407,6 @@ function gameStart() {
                         gameOverContainer.classList.add(`flex-center`);
                         gameOverContainer.style.width = `100%`;
                         gameOverContainer.style.height = `100vh`;
-
                         gameOverContainer.innerHTML = `
                             <div>
                                 <h1>Game Over!</h1>
@@ -433,13 +415,18 @@ function gameStart() {
                     }
                 }
 
-                // ONQUE
+                // // clear interval and return
+                // if( gameDetails.enemyCounter == 0 ) {
+                //     gameDetails.gameStatus = `cleared`;
+                //     clearInterval(id);
+                //     return;
+                // }
+
+                // will check which direction the enemy will walk. Left or Right.
+                randomNum = getRandomNumber(10);
                 if( mobsObj.facingDirection == 'left' ) {
                     enemyChar[mobsObj.enemyId].style.transform = `scaleX(-1)`;
-                
-                    // switchFacing = moveEnemyLeft(enemyChar[mobsObj.enemyId],mobsObj,generateQty);
-                    enemyResult = moveEnemyLeft(enemyChar[mobsObj.enemyId],mobsObj,generateQty);
-                    randomNum = Math.floor( Math.random()*10);
+                    enemyResult = moveEnemyLeft(enemyChar[mobsObj.enemyId],mobsObj);
                     if(randomNum == 1 || randomNum == 2 || randomNum == 3) {
                         moveEnemyUp(enemyChar[mobsObj.enemyId]);
                     } else if(randomNum == 4 || randomNum == 5 || randomNum == 6) {
@@ -447,8 +434,7 @@ function gameStart() {
                     }
                 } else if( mobsObj.facingDirection == 'right' ) {
                     enemyChar[mobsObj.enemyId].style.transform = `scaleX(1)`;
-                    enemyResult = moveEnemyRight(enemyChar[mobsObj.enemyId],mobsObj,generateQty);
-                    randomNum = Math.floor( Math.random()*10);
+                    enemyResult = moveEnemyRight(enemyChar[mobsObj.enemyId],mobsObj);
                     if(randomNum == 1 || randomNum == 2 || randomNum == 3) {
                         moveEnemyUp(enemyChar[mobsObj.enemyId]);
                     } else if(randomNum == 4 || randomNum == 5 || randomNum == 6) {
@@ -456,6 +442,7 @@ function gameStart() {
                     }
                 } else {
                 }
+                // this animates the enemy.
                 if( enemySpriteNum == 0 ) {
                     enemyChar[mobsObj.enemyId].style.backgroundImage = frognemySpriteObj.walk[0];
                     enemySpriteNum += 1;
@@ -470,10 +457,6 @@ function gameStart() {
                     enemyRenderStatus = 0;
                 }
                 mobsObj.facingDirection = enemyResult.facing;
-                // mobsObj.facingDirection = ``;
-                // console.log(enemyResult);
-                // console.log(enemyResult.facing);
-                console.log(`enemyResult.allEnemy ${enemyResult.allEnemy}`);
 
                 // get the highscore
                 checkHighScoreString = localStorage.getItem("highScore");
@@ -487,48 +470,41 @@ function gameStart() {
                     localStorage.setItem('highScore', gameDetails.score);
                 }
 
-                //onque
-                // enemyChar.pop();
-                console.log(enemyChar);
+                // clear interval and return
+                if( gameDetails.enemyCounter == 0 ) {
+                    gameDetails.gameStatus = `cleared`;
+                    // console.log(gameDetails.gameStatus);
+                    clearInterval(id);
+                    return;
+                }
             }
-
         }
 
         function statsUpdate() {
-            // console.log(gameDetails.gameStatus);
-            // console.log(gameDetails.numberOfEnemy);
             gameDetailsLifeClass.textContent = gameDetails.life;
-            gameDetailsLvlClass.textContent = gameDetails.level;
+            gameDetailsLvlClass.textContent = `${gameDetails.level} [${gameDetails.enemyCounter}/${gameDetails.numberOfEnemy}]`;
             gameDetails.highscoreString = localStorage.getItem("highScore");
             gameDetailsHscoreClass.textContent = gameDetails.highscoreString;
             gameDetailsScoreClass.textContent = gameDetails.score;
         }
 
         let enemyMovementSpeed = 7;
-        let charGap = 3;
-        // move enemy to the left
         let facing = ``;
         let allEnemy = ``;
-        function moveEnemyLeft(thisMobs,mobsObj,generateQty) {
+        // move enemy to the left
+        function moveEnemyLeft(thisMobs,mobsObj) {
             heroCharPos = getPos(heroChar);
             let thisMobsPos = getPos(thisMobs);
-            // if( thisMobsPos.left <= (heroCharPos.right-5) && thisMobsPos.left > (heroCharPos.left + (heroCharPos.width/3))) {
-            //     renderHeroAction(`hit`);
-            // } else if( thisMobsPos.left - enemyMovementSpeed > playAreaPos.left ) {
-            //     thisMobsPos.left = thisMobsPos.left - enemyMovementSpeed;
-            //     thisMobs.style.left = `${thisMobsPos.left}px`;
-            // }
-            // ONQUE
             if( thisMobsPos.left <= (heroCharPos.right-5) && thisMobsPos.left > (heroCharPos.left + (heroCharPos.width/3))) {
                 if(heroObj.heroStatus == `alive`) {
                     if(heroObj.heroAction == `attack`) {
                         mobsObj.enemyLife = mobsObj.enemyLife - 1;
-                        console.log(mobsObj.enemyLife);
                         if(mobsObj.enemyLife == 0) {
                             thisMobs.style.display = `none`;
-                            generateQty = generateQty-1;
+                            thisMobs.remove();
+                            gameDetails.enemyCounter = gameDetails.enemyCounter -1;
                             gameDetails.score = gameDetails.score + 1;
-                            console.log(`generateQty:${generateQty} | gameDetails.score:${gameDetails.score}`);
+                            console.log(`gameDetails.enemyCounter:${gameDetails.enemyCounter} | gameDetails.score:${gameDetails.score}`);
                             facing = `left`;
                             allEnemy = `defeated`;
                             return { facing, allEnemy };
@@ -543,12 +519,10 @@ function gameStart() {
                 thisMobs.style.left = `${thisMobsPos.left}px`;
             }
             else {
-                // return `right`;
                 facing = `right`;
                 allEnemy = `someAlive`;
                 return { facing, allEnemy };
             }
-            // return `left`;
             facing = `left`;
             allEnemy = `someAlive`;
             return { facing, allEnemy };
@@ -557,20 +531,16 @@ function gameStart() {
         function moveEnemyRight(thisMobs,mobsObj) {
             heroCharPos = getPos(heroChar);
             let thisMobsPos = getPos(thisMobs);
-            // if( thisMobsPos.right >= heroCharPos.left && thisMobsPos.right < (heroCharPos.left + (heroCharPos.width/3)) ) {
-            //     gameDetails.life = gameDetails.life - getRandomNumber(5);
-            //     renderHeroAction(`hit`);
-            // }
             if( thisMobsPos.right >= heroCharPos.left && thisMobsPos.right < (heroCharPos.left + (heroCharPos.width/3)) ) {
                 if(heroObj.heroStatus == `alive`) {
                     if(heroObj.heroAction == `attack`) {
                         mobsObj.enemyLife = mobsObj.enemyLife - 1;
-                        console.log(mobsObj.enemyLife);
                         if(mobsObj.enemyLife == 0) {
                             thisMobs.style.display = `none`;
-                            generateQty = generateQty-1;
+                            thisMobs.remove();
+                            gameDetails.enemyCounter = gameDetails.enemyCounter -1;
                             gameDetails.score = gameDetails.score + 1;
-                            console.log(`generateQty:${generateQty} | gameDetails.score:${gameDetails.score}`);
+                            console.log(`gameDetails.enemyCounter:${gameDetails.enemyCounter} | gameDetails.score:${gameDetails.score}`);
                             facing = `right`;
                             allEnemy = `defeated`;
                             return { facing, allEnemy };
@@ -618,8 +588,23 @@ function gameStart() {
             }
         }
 
+        // check if level is cleared, then respawn monster.
+        let gameStatusCheckerCounter = 2;
+        function gameStatusChecker() {
+            let id = null;
+            clearInterval(id);
+            id = setInterval(respawnEnemy, 1000);
+            function respawnEnemy() {
+                if(gameDetails.enemyCounter == 0) {
+                    gameStatusCheckerCounter += 1;
+                    generateEnemy((gameStatusCheckerCounter*2)-1,gameStatusCheckerCounter+1);
+                }
+                console.log(`checking gameDetails.enemyCounter = ${gameDetails.enemyCounter}`);
+            }
+        }
+        gameStatusChecker();
     }
-    generateEnemy(10,1); // level 1
+    generateEnemy(3,1); // start generate enemy.
 
     // this will be passed to a function call outside.
     let btnClickEvent = [0,0,0,0,0];
@@ -771,7 +756,6 @@ function callKeyEventListener(checkForMenu,checkForHero,btnClickEvent,playAreaPo
     function pressedKey(whatKeyIsPressed){
         switch (whatKeyIsPressed.code) {
             case 'ArrowUp':
-                console.log(heroObj.heroStatus);
                 if( heroObj.heroStatus == 'alive' ) {
                     if(gameStatus == 'GameStart') {
                         moveUp(checkForHero,playAreaPos);
@@ -808,7 +792,6 @@ function callKeyEventListener(checkForMenu,checkForHero,btnClickEvent,playAreaPo
                 }
                 break;
             case 'Space':
-                console.log(`code: "${whatKeyIsPressed.code}"`);
                 if( heroObj.heroStatus == 'alive' ) {
                     if(gameStatus == 'GameStart') {
                         renderHeroAction('attack');
@@ -879,7 +862,7 @@ function renderHeroWalk(facing) {
     let id = null;
     clearInterval(id);
     let heroSpriteNum = 0;
-    console.log(renderStatus);
+    // console.log(renderStatus); // enable for checking
 
     // this is to allow the animation to be smooth.
     if(renderStatus == 0) {
