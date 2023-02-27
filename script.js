@@ -17,7 +17,7 @@ header.textContent = ``;
 
 const footer = document.querySelector('.footer');
 footer.innerHTML = `Design and Coded by: ZircAlbon © 2023`;
-// footer.innerHTML = `Design and Coded by: ZircAlbon © 2023 | Photos from <a href="https://itch.io" target="_blank">Itch.io</a>`;
+// footer.innerHTML = `Design and Coded by: ZircAlbon © 2023 | Photos from <a href="" target="_blank"></a>`;
 let footerPos = getPos(footer);
 footer.style.top = `${windowHeight - (footerPos.height*2)}px`;
 
@@ -187,8 +187,8 @@ function showMenu() {
     });
     menuCreditsImgTagClass.addEventListener('click', () => {
         // alert(`credits menu clicked`);
+        window.open("https://github.com/zirc31/ASimpleJavaScriptFightingGame");
     });
-
 }
 
 function gameStart() {
@@ -409,6 +409,15 @@ function gameStart() {
             function enemyAction() {
                 statsUpdate();
 
+                // onque
+                // console.log(gameDetails.life);
+                if( gameDetails.life <= 0 ) {
+                    if( heroObj.heroStatus != `dead` ) {
+                        renderHeroAction('death');
+                        heroObj.heroStatus = `dead`;
+                    }
+                }
+
                 // ONQUE
                 if( mobsObj.facingDirection == 'left' ) {
                     enemyChar[mobsObj.enemyId].style.transform = `scaleX(-1)`;
@@ -449,7 +458,7 @@ function gameStart() {
                 // mobsObj.facingDirection = ``;
                 // console.log(enemyResult);
                 // console.log(enemyResult.facing);
-                // console.log(enemyResult.allEnemy);
+                console.log(`enemyResult.allEnemy ${enemyResult.allEnemy}`);
 
                 // get the highscore
                 checkHighScoreString = localStorage.getItem("highScore");
@@ -462,7 +471,12 @@ function gameStart() {
                     // Set New Highscore
                     localStorage.setItem('highScore', gameDetails.score);
                 }
+
+                //onque
+                // enemyChar.pop();
+                console.log(enemyChar);
             }
+
         }
 
         function statsUpdate() {
@@ -588,6 +602,7 @@ function gameStart() {
                 thisMobs.style.top = `${thisMobsPos.top}px`;
             }
         }
+
     }
     generateEnemy(10,1); // level 1
 
