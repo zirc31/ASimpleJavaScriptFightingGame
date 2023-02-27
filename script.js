@@ -118,37 +118,44 @@ function showMenu() {
         const controlsContainer = document.createElement('div');
         mainContainer.appendChild( controlsContainer );
         controlsContainer.classList.add(`controls-p-tag`);
+        controlsContainer.classList.add(`flex-center`);
         controlsContainer.innerHTML = `
-            <div>
-                <h5>Game Mechanics:</h5>
-                <ul>
-                    <li>The Hero "you" is caught up and being ambush by a group of swarming enemy.</li>
-                    <li>Help the Hero survive the enemy's attack.</li>
-                    <li>You can navigate the Hero Character using Mouse or Keyboard.</li>
-                    <li>You gain Points by defeating the enemy.</li>
-                    <li>Your Hero will lose a Life when an enemy get near or attack the Hero.</li>
-                    <li>Your Hero will die when Hero's Life decreases to 0%.</li>
-                </ul>
-                <h5>Mouse:</h5>
-                <ul>
-                    <li>Click Attack button for the Hero character to attack.</li>
-                    <li>Click Up, Down, Left or Right buttons to move the Hero.</li>
-                </ul>
-                <h5>Keyboard:</h5>
-                <ul>
-                    <li>Press Spacebar or Enter Key for the Hero character to attack.</li>
-                    <li>Press Up, Down, Left or Right Arrow Key to move the Hero.</li>
-                </ul>
+            <div class="flex-center-column">
+                <div>
+                    <h5>Game Mechanics:</h5>
+                    <ul>
+                        <li>The Hero "you" is caught up and being ambush by a group of swarming enemy.</li>
+                        <li>Help the Hero survive the enemy's attack.</li>
+                        <li>You can navigate the Hero Character using Mouse or Keyboard.</li>
+                        <li>You gain Points by defeating the enemy.</li>
+                        <li>Your Hero will lose a Life when an enemy get near or attack the Hero.</li>
+                        <li>Your Hero will die when Hero's Life decreases to 0%.</li>
+                    </ul>
+                    <h5>Mouse:</h5>
+                    <ul>
+                        <li>Click Attack button for the Hero character to attack.</li>
+                        <li>Click Up, Down, Left or Right buttons to move the Hero.</li>
+                    </ul>
+                    <h5>Keyboard:</h5>
+                    <ul>
+                        <li>Press Spacebar or Enter Key for the Hero character to attack.</li>
+                        <li>Press Up, Down, Left or Right Arrow Key to move the Hero.</li>
+                    </ul>
+                </div>
             </div>
         `;
-        // if mouse clicked
-        controlsContainer.addEventListener('click', () => {
-            menuStartGameImgTag.classList.remove(`hide`);
-            menuControlsImgTag.classList.remove(`hide`);
-            menuCreditsImgTag.classList.remove(`hide`);
-            controlsContainer.classList.add(`hide`);
-            document.removeEventListener('click', menuCreditsImgTagClass);
-            document.removeEventListener('keydown', keyPressed);
+        // if mouse clicked, the second time only.
+        let mouseIsClicked = 0;
+        document.addEventListener('click', () => {
+            if ( mouseIsClicked == 1) {
+                menuStartGameImgTag.classList.remove(`hide`);
+                menuControlsImgTag.classList.remove(`hide`);
+                menuCreditsImgTag.classList.remove(`hide`);
+                controlsContainer.classList.add(`hide`);
+                document.removeEventListener('click', document);
+                document.removeEventListener('keydown', keyPressed);
+            }
+            mouseIsClicked += 1;
         });
         // if key pressed
         let keyPressed = document.addEventListener('keydown', pressedKey);
@@ -159,7 +166,7 @@ function showMenu() {
                     menuControlsImgTag.classList.remove(`hide`);
                     menuCreditsImgTag.classList.remove(`hide`);
                     controlsContainer.classList.add(`hide`);
-                    document.removeEventListener('click', menuCreditsImgTagClass);
+                    document.removeEventListener('click', document);
                     document.removeEventListener('keydown', keyPressed);
                     break;
             }
@@ -415,13 +422,6 @@ function gameStart() {
                     }
                 }
 
-                // // clear interval and return
-                // if( gameDetails.enemyCounter == 0 ) {
-                //     gameDetails.gameStatus = `cleared`;
-                //     clearInterval(id);
-                //     return;
-                // }
-
                 // will check which direction the enemy will walk. Left or Right.
                 randomNum = getRandomNumber(10);
                 if( mobsObj.facingDirection == 'left' ) {
@@ -473,7 +473,6 @@ function gameStart() {
                 // clear interval and return
                 if( gameDetails.enemyCounter == 0 ) {
                     gameDetails.gameStatus = `cleared`;
-                    // console.log(gameDetails.gameStatus);
                     clearInterval(id);
                     return;
                 }
@@ -491,11 +490,21 @@ function gameStart() {
         let enemyMovementSpeed = 7;
         let facing = ``;
         let allEnemy = ``;
+        let heroCharCore = 0;
+        let enemyCharCore = 0;
+        let coreGap = 0;
         // move enemy to the left
         function moveEnemyLeft(thisMobs,mobsObj) {
             heroCharPos = getPos(heroChar);
+            heroCharCore = heroCharPos.top+(heroCharPos.height/2);
+            coreGap = (heroCharPos.height/5)*3;
             let thisMobsPos = getPos(thisMobs);
-            if( thisMobsPos.left <= (heroCharPos.right-5) && thisMobsPos.left > (heroCharPos.left + (heroCharPos.width/3))) {
+            enemyCharCore = thisMobsPos.top+(thisMobsPos.height/2);
+            if( thisMobsPos.left <= (heroCharPos.right-5) &&
+                thisMobsPos.left > (heroCharPos.left + (heroCharPos.width/3)) &&
+                enemyCharCore >= heroCharCore - coreGap &&
+                enemyCharCore <= heroCharCore + coreGap
+            ) {
                 if(heroObj.heroStatus == `alive`) {
                     if(heroObj.heroAction == `attack`) {
                         mobsObj.enemyLife = mobsObj.enemyLife - 1;
@@ -530,8 +539,15 @@ function gameStart() {
         // move enemy to the right
         function moveEnemyRight(thisMobs,mobsObj) {
             heroCharPos = getPos(heroChar);
+            heroCharCore = heroCharPos.top+(heroCharPos.height/2);
+            coreGap = (heroCharPos.height/5)*3;
             let thisMobsPos = getPos(thisMobs);
-            if( thisMobsPos.right >= heroCharPos.left && thisMobsPos.right < (heroCharPos.left + (heroCharPos.width/3)) ) {
+            enemyCharCore = thisMobsPos.top+(thisMobsPos.height/2);
+            if( thisMobsPos.right >= heroCharPos.left &&
+                thisMobsPos.right < (heroCharPos.left + (heroCharPos.width/3)) &&
+                enemyCharCore >= heroCharCore - coreGap &&
+                enemyCharCore <= heroCharCore + coreGap
+            ) {
                 if(heroObj.heroStatus == `alive`) {
                     if(heroObj.heroAction == `attack`) {
                         mobsObj.enemyLife = mobsObj.enemyLife - 1;
@@ -609,7 +625,7 @@ function gameStart() {
     // this will be passed to a function call outside.
     let btnClickEvent = [0,0,0,0,0];
 
-    //  event
+    // event listener for mouseclick.
     const btnAtkEvent = document.querySelector('.btn-atk');
     btnClickEvent[0] = btnAtkEvent;
     ['mousedown','mouseup'].forEach( event => btnAtkEvent.addEventListener( event, function(){

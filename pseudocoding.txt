@@ -1,8 +1,8 @@
 BEGIN
     - Creating phase, planning & theory:
-        - Create a JS Fighting game.
-        - Create Header & Footer.
-            Header will display game details and stats.
+        - GOAL: Create a JS Fighting game. [done]
+        - Create Header & Footer. [done]
+            Header will display game details and stats. [done]
             Footer will display key buttons and some instructions etc. [done]
         - Create a main-container that will take the whole browser's 100% width and 100% height. [done]
         - Create a DIV that will holds the character's image, this will be the hero character. [done]
@@ -10,32 +10,32 @@ BEGIN
         - Create Menus in the main page. [done]
             - Press any key to Start!, will display all 3 options. [done]
                 - Start Game [done]
-                - Controls
-                - Credits
+                - Controls [done]
+                - Credits [done] just put a link to github repository for now.
     - Initialization phase:
         - For testing purposes, will try with divs for now. [done]
         - Hero Character UI [done]
-        - Enemy UI
+        - Enemy UI [done]
         - Init hero character's div, width, height, border(to see where it is in the page.) [done]
         - Init enemy character's div, width, height, border(to see where it is in the page.) [done]
         - Set both div's to absolute [done], so I can freely move the characters around by changing the div's top and left value. [done]
-        - For stats
+        - Stats [done]
     - Add page buttons [done], this will make the hero navigates all throughout the game. [done]
-    - Theory: Find a way to add an event listener of key press, to make the navigation easier. (will not implement if it not enough time.)
+    - Theory: Find a way to add an event listener of key press, to make the navigation easier. (will not implement if it not enough time.) [done]
     - Random Enemy Spawn / Respawn [done]
         Random Respawn from left or right [done]
             IF random number = Odd, Re/Spawn on right. [done]
             ELSE Re/Spawn on left. [done]
-        Enemy automatically walk from Right to Left. Then Left to Right.
+        Enemy automatically walk from Right to Left. Then Left to Right. [done]
     - Possible additional: Game difficulty, and multiple enemy before reaching the Boss Enemy.
     - Add Boss Enemy, Boss UI
     - Theory: Game mechanics, to be implemented, hopefully:
-        - When the hero character get close to the enemy, and the character is in Attack mode, the enemy should deplete its life force or HP.
-        - Enemy will die when being hit multiple times and no more life, same with the boss. (will check for gif file of some sort to show that enemy dies).
-        - Hero will die too if he got multiple hits with an enemy or boss.
-        - Hero will reduce/deplete its life force or HP if an enemy get close to him.
+        - When the hero character get close to the enemy [done], and the character is in Attack mode, the enemy should deplete its life force or HP.
+        - Enemy will die when being hit multiple times and no more life [done], same with the boss. (will check for gif file of some sort to show that enemy dies).
+        - Hero will die too if he got multiple hits with an enemy or boss. [done]
+        - Hero will reduce/deplete its life force or HP if an enemy get close to him. [done]
     - Movement mechanics:
-        - for the hero [done] or enemy to go up decrease its top value.
+        - for the hero [done] or enemy to go up decrease its top value. [done]
         - increase top value to go down. [done]
         - decrease left value to go left. [done]
         - increase left value to go right. [done]
@@ -54,20 +54,20 @@ BEGIN
     - Boss Movement
     - Collision: [done]
         If Enemy's left or right near Hero's Left or Right [done]
-        And if Hero is not it AttackMode status Hero will reduce Life and will bump backwards from where the collision happens.
+        And if Hero is not it AttackMode status Hero will reduce Life and will bump backwards from where the collision happens. [done]
     - Enemy and Boss movement will be triggered by a loop of function.
     - Theory: Will try to figure out a way for some enemy to target or get close to the hero character, like chasing it or attacking it. (will not implement if it not enough time.)
     - Add Game Status, this will tell if which part of the game is the user in:
         - Initial // the press any key menu. [done]
         - Menu // the part that will display, Start Game, Controls, Credits menus. [done]
-        - Controls // not yet implemented. will show game mechanics, buttons, and instruction. 
-            - Mouse:
+        - Controls // not yet implemented. will show game mechanics, buttons, and instruction. [done]
+            - Mouse: [done]
                 - Click Attack button for the Hero character to attack.
                 - Click Up, Down, Left or Right buttons to move the Hero.
-            - Keyboard:
+            - Keyboard: [done]
                 - Press Spacebar or Enter Key for the Hero character to attack.
                 - Press Up, Down, Left or Right Arror Key to move the Hero.
-            - Game Mechanics:
+            - Game Mechanics: [done]
                 - This is a fighting game, where the Hero "This is you" is caught up and being ambush by a group of swarming enemy.
                 - Help the Hero survive the enemy's attack.
                 - You can navigate the Hero Character using Mouse or Keyboard.
@@ -76,7 +76,7 @@ BEGIN
                 - Your Hero will die when Hero's Life decreases to 0%.
         - Credits // not yet implemented. will show attributes where images and other assets are taken from.
             Design and Coded by ZircAlbon:
-                - Github
+                - Github  [done] just put a link to github repository for now.
                 - Facebook
             Fonts used:
                 - Google Fonts
@@ -84,10 +84,10 @@ BEGIN
                 - Cleanpng.com
             Background:
                 - Itch.io
-        - GameStart // the GAME ITSELF basic part [done], hero rendering part, enemy rendering, boss rendering part.
+        - GameStart // the GAME ITSELF basic part [done], hero rendering part [done], enemy rendering [done], boss rendering part.
         - Scoreboard
             Hero Life [done]
             Level [done]
             Highscore [done]
-            Score
+            Score [done]
 END
