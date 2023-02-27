@@ -415,6 +415,21 @@ function gameStart() {
                     if( heroObj.heroStatus != `dead` ) {
                         renderHeroAction('death');
                         heroObj.heroStatus = `dead`;
+                        gameDetails.life = 0;
+
+                        // Initialize game details.
+                        const gameOverContainer = document.createElement('div');
+                        mainContainer.appendChild( gameOverContainer );
+                        gameOverContainer.classList.add(`game-over-container`);
+                        gameOverContainer.classList.add(`flex-center`);
+                        gameOverContainer.style.width = `100%`;
+                        gameOverContainer.style.height = `100vh`;
+
+                        gameOverContainer.innerHTML = `
+                            <div>
+                                <h1>Game Over!</h1>
+                            </div>
+                        `;
                     }
                 }
 
