@@ -625,7 +625,7 @@ function gameStart() {
             function respawnEnemy() {
                 if(gameDetails.enemyCounter == 0) {
                     gameStatusCheckerCounter += 1;
-                    generateEnemy((gameStatusCheckerCounter*2)-1,gameStatusCheckerCounter+1);
+                    generateEnemy((gameStatusCheckerCounter*2)-1,(gameStatusCheckerCounter-2)+1);
                 }
                 console.log(`checking gameDetails.enemyCounter = ${gameDetails.enemyCounter}`);
             }
