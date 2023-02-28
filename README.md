@@ -2,7 +2,7 @@
 View site demo: [https://p2-js-game-zircdev.netlify.app/](https://p2-js-game-zircdev.netlify.app/)
 
 ## Description
-This is a simple JavaScript Fighting Game.
+This is a simple JavaScript Browser Fighting Game.
 
 ## Support
 You can contact me via [LinkedIn](https://www.linkedin.com/in/cx31-uiuxdev/) & [Facebook](https://www.facebook.com/zircitsolutions).

@@ -373,7 +373,6 @@ function gameStart() {
             enemyWalk(enemyCharObj[enemyCount]);
         }
 
-        let switchFacing = ``;
         function enemyWalk(mobsObj) {
             // function enemyWalk(whatMobs,mobsObj) {
             let id = null;
@@ -398,7 +397,7 @@ function gameStart() {
             };
 
             function enemyAction() {
-                statsUpdate();
+                statsUpdate('');
 
                 // check if hero is dead. then Game Over.
                 if( gameDetails.life <= 0 ) {
@@ -415,10 +414,26 @@ function gameStart() {
                         gameOverContainer.style.width = `100%`;
                         gameOverContainer.style.height = `100vh`;
                         gameOverContainer.innerHTML = `
-                            <div>
+                            <div style="text-align: center;">
                                 <h1>Game Over!</h1>
+                                <br /><br />
+                                <p><small>Click Anywhere<br />or<br />Pressed Any Key to Reload.</small></p>
                             </div>
                         `;
+
+                        // checked mouse clicked
+                        document.addEventListener('click', () => {
+                            location.reload();
+                        });
+                        // if key pressed
+                        let keyPressed = document.addEventListener('keydown', pressedKey);
+                        function pressedKey(keyPressed){
+                            switch (keyPressed.code) {
+                                default:
+                                    location.reload();
+                                    break;
+                            }
+                        }
                     }
                 }
 
@@ -462,8 +477,6 @@ function gameStart() {
                 checkHighScoreString = localStorage.getItem("highScore");
                 // convert the highScore string into number.
                 checkHighScore = checkHighScoreString * 1;
-                // clear highScore
-                // localStorage.setItem('highScore', 0);
 
                 if( gameDetails.score > checkHighScore ) {
                     // Set New Highscore
@@ -479,12 +492,13 @@ function gameStart() {
             }
         }
 
+        // this will update the Scoreboard or Stats.
         function statsUpdate() {
-            gameDetailsLifeClass.textContent = gameDetails.life;
-            gameDetailsLvlClass.textContent = `${gameDetails.level} [${gameDetails.enemyCounter}/${gameDetails.numberOfEnemy}]`;
-            gameDetails.highscoreString = localStorage.getItem("highScore");
-            gameDetailsHscoreClass.textContent = gameDetails.highscoreString;
-            gameDetailsScoreClass.textContent = gameDetails.score;
+                gameDetailsLifeClass.textContent = gameDetails.life;
+                gameDetailsLvlClass.textContent = `${gameDetails.level} [${gameDetails.enemyCounter}/${gameDetails.numberOfEnemy}]`;
+                gameDetails.highscoreString = localStorage.getItem("highScore");
+                gameDetailsHscoreClass.textContent = gameDetails.highscoreString;
+                gameDetailsScoreClass.textContent = gameDetails.score;
         }
 
         let enemyMovementSpeed = 7;
@@ -571,12 +585,10 @@ function gameStart() {
                 thisMobsPos.left = thisMobsPos.left + enemyMovementSpeed;
                 thisMobs.style.left = `${thisMobsPos.left}px`;
             } else {
-                // return `left`;
                 facing = `left`;
                 allEnemy = `someAlive`;
                 return { facing, allEnemy };
             }
-            // return `right`;
             facing = `right`;
             allEnemy = `someAlive`;
             return { facing, allEnemy };
@@ -622,7 +634,7 @@ function gameStart() {
     }
     generateEnemy(3,1); // start generate enemy.
 
-    // this will be passed to a function call outside.
+    // define btnClickEvent
     let btnClickEvent = [0,0,0,0,0];
 
     // event listener for mouseclick.
@@ -767,7 +779,7 @@ function callKeyEventListener(checkForMenu,checkForHero,btnClickEvent,playAreaPo
         }
     }
 
-    // this will check of a keyboard key press.
+    // this will check if a keyboard key pressed.
     let whatKeyIsPressed = document.addEventListener('keydown', pressedKey);
     function pressedKey(whatKeyIsPressed){
         switch (whatKeyIsPressed.code) {
@@ -818,15 +830,15 @@ function callKeyEventListener(checkForMenu,checkForHero,btnClickEvent,playAreaPo
             case 'Enter':
                 if( heroObj.heroStatus == 'alive' ) {
                     if(gameStatus == 'GameStart') {
-                        renderHeroAction('hit');
+                        renderHeroAction('attack');
                         toggleBtn(0);
                     }
                 }
                 break;
-            case 'KeyW':
+            case 'Delete':
                 if( heroObj.heroStatus == 'alive' ) {
                     if(gameStatus == 'GameStart') {
-                        renderHeroAction('death');
+                        resetHighScore();
                     }
                 }
                 break;
@@ -874,6 +886,7 @@ let actionThree = '';
 
 heroChar = document.querySelector('.hero-char');
 
+// this will switch the hero character based on the direction he is moving.
 function renderHeroWalk(facing) {
     let id = null;
     clearInterval(id);
@@ -909,6 +922,7 @@ function renderHeroWalk(facing) {
     }
 }
 
+// function for what the Hero will do.
 function renderHeroAction(ifAction) {
     let id = null;
     clearInterval(id);
@@ -983,6 +997,7 @@ function renderHeroAction(ifAction) {
             return;
         }
     }
+    // this will animate the dying hero images after dying, run function for dead animation.
     function heroActionDied() {
         renderStatus = 1;
 
@@ -995,7 +1010,7 @@ function renderHeroAction(ifAction) {
         }
     }
 }
-
+// this will animate the dead hero images.
 function deadHeroLoop(deadHeroSprite) {
     renderStatus = 1;
     heroSpriteNum = 0;
@@ -1011,6 +1026,12 @@ function deadHeroLoop(deadHeroSprite) {
     }
 }
 
+// for getting random numbers.
 function getRandomNumber(maxNum) {
     return Math.floor( Math.random()*maxNum);
+}
+
+// clear highScore
+function resetHighScore() {
+    localStorage.setItem('highScore', 0);
 }
