@@ -29,9 +29,8 @@ menuContainer.classList.add(`menu-container`);
 menuContainer.classList.add(`flex-center`);
 menuContent.classList.add(`menu-content`);
 menuContent.classList.add(`flex-center`);
-const menuContainerClass = document.querySelector('.menu-container');
-const menuContentClass = document.querySelector('.menu-content');
-let menuContentClassPos = getPos(menuContentClass);
+let menuContentPos = getPos(menuContent);
+
 
 // initialized Title
 const titleImgTag = document.createElement('img');
@@ -40,7 +39,7 @@ titleImgTag.classList.add(`img-title`);
 const titleImgTagClass = document.querySelector('.img-title');
 titleImgTag.src = `assets/zjsgame_title.png`;
 let titleImgTagClassPos = getPos(titleImgTagClass);
-titleImgTagClass.style.top = `${menuContentClassPos.top+25}px`;
+titleImgTagClass.style.top = `${menuContentPos.top+25}px`;
 titleImgTagClass.style.left = `${(windowWidth/2)-(titleImgTagClassPos.right/2)}px`;
 
 // initialized Press Any Key
@@ -68,7 +67,8 @@ function showMenu() {
     const menuInnerDivTag = document.createElement('div');
     menuContent.appendChild( menuInnerDivTag );
     menuInnerDivTag.classList.add(`menu-inner-div-tag`);
-    menuInnerDivTag.classList.add(`flex-center-column`);
+    menuInnerDivTag.classList.add(`flex-center`);
+    menuInnerDivTag.classList.add(`flex-column`);
 
     // initialized Start Game Menu
     const menuStartGameImgTag = document.createElement('img');
@@ -120,7 +120,7 @@ function showMenu() {
         controlsContainer.classList.add(`controls-p-tag`);
         controlsContainer.classList.add(`flex-center`);
         controlsContainer.innerHTML = `
-            <div class="flex-center-column">
+            <div class="flex-center flex-column">
                 <div>
                     <h5>Game Mechanics:</h5>
                     <ul>
@@ -321,7 +321,7 @@ function gameStart() {
         // This will create and render all the enemy.
         for(enemyCount = 0; enemyCount < generateQty; enemyCount++ ) {
             // random number, will later use in if else.
-            let randomOddEven = Math.floor( Math.random()*100);
+            let randomOddEven = getRandomNumber(100);
 
             enemyContainer[enemyCount] = document.createElement('div');
             enemyContainer[enemyCount].classList.add(`enemy-spawn${enemyCount+1}`);
@@ -331,7 +331,8 @@ function gameStart() {
             enemyCharPos[enemyCount] = getPos(enemyChar[enemyCount]);
 
             // enemy random re/spawn
-            let randomSpot = Math.floor( Math.random()*(playAreaPos.height-enemyCharPos[enemyCount].height));
+            let randomSpot = getRandomNumber(playAreaPos.height-enemyCharPos[enemyCount].height);
+
             let randomSpotY = randomSpot + playAreaPos.top;
             enemyChar[enemyCount].style.top = `${randomSpotY}px`;
 
@@ -442,17 +443,17 @@ function gameStart() {
                 if( mobsObj.facingDirection == 'left' ) {
                     enemyChar[mobsObj.enemyId].style.transform = `scaleX(-1)`;
                     enemyResult = moveEnemyLeft(enemyChar[mobsObj.enemyId],mobsObj);
-                    if(randomNum == 1 || randomNum == 2 || randomNum == 3) {
+                    if(randomNum >= 1 && randomNum <= 3) {
                         moveEnemyUp(enemyChar[mobsObj.enemyId]);
-                    } else if(randomNum == 4 || randomNum == 5 || randomNum == 6) {
+                    } else if(randomNum >= 4 && randomNum <= 6) {
                         moveEnemyDown(enemyChar[mobsObj.enemyId]);
                     }
                 } else if( mobsObj.facingDirection == 'right' ) {
                     enemyChar[mobsObj.enemyId].style.transform = `scaleX(1)`;
                     enemyResult = moveEnemyRight(enemyChar[mobsObj.enemyId],mobsObj);
-                    if(randomNum == 1 || randomNum == 2 || randomNum == 3) {
+                    if(randomNum >= 1 && randomNum <= 3) {
                         moveEnemyUp(enemyChar[mobsObj.enemyId]);
-                    } else if(randomNum == 4 || randomNum == 5 || randomNum == 6) {
+                    } else if(randomNum >= 4 && randomNum <= 6) {
                         moveEnemyDown(enemyChar[mobsObj.enemyId]);
                     }
                 } else {
@@ -527,7 +528,6 @@ function gameStart() {
                             thisMobs.remove();
                             gameDetails.enemyCounter = gameDetails.enemyCounter -1;
                             gameDetails.score = gameDetails.score + 1;
-                            console.log(`gameDetails.enemyCounter:${gameDetails.enemyCounter} | gameDetails.score:${gameDetails.score}`);
                             facing = `left`;
                             allEnemy = `defeated`;
                             return { facing, allEnemy };
@@ -570,7 +570,6 @@ function gameStart() {
                             thisMobs.remove();
                             gameDetails.enemyCounter = gameDetails.enemyCounter -1;
                             gameDetails.score = gameDetails.score + 1;
-                            console.log(`gameDetails.enemyCounter:${gameDetails.enemyCounter} | gameDetails.score:${gameDetails.score}`);
                             facing = `right`;
                             allEnemy = `defeated`;
                             return { facing, allEnemy };
@@ -627,7 +626,6 @@ function gameStart() {
                     gameStatusCheckerCounter += 1;
                     generateEnemy((gameStatusCheckerCounter*2)-1,(gameStatusCheckerCounter-2)+1);
                 }
-                console.log(`checking gameDetails.enemyCounter = ${gameDetails.enemyCounter}`);
             }
         }
         gameStatusChecker();
@@ -710,7 +708,7 @@ function gameStart() {
             btnAtkEvent.classList.remove('btn-key-clicked');
         }
     }
-    //
+    // will passed required value for the event listener to run.
     callKeyEventListener('',heroChar,btnClickEvent,playAreaPos);
 }
 
@@ -843,7 +841,7 @@ function callKeyEventListener(checkForMenu,checkForHero,btnClickEvent,playAreaPo
                 }
                 break;
             default:
-                console.log(`code: "${whatKeyIsPressed.code}"`);
+                // do nothing.
                 break;
         }
     }
@@ -891,7 +889,6 @@ function renderHeroWalk(facing) {
     let id = null;
     clearInterval(id);
     let heroSpriteNum = 0;
-    // console.log(renderStatus); // enable for checking
 
     // this is to allow the animation to be smooth.
     if(renderStatus == 0) {
@@ -944,19 +941,21 @@ function renderHeroAction(ifAction) {
         actionTwo = actionDefault;
         actionThree = actionDefault;
     }
-    let deathOfHeroSprite = [
-        heroActionObj.death[0],
-        heroActionObj.death[1],
-        heroActionObj.death[2]
-    ];
-    let deadHeroSprite = [
-        heroActionObj.death[2],
-        heroActionObj.dead[0],
-        heroActionObj.dead[1],
-        heroActionObj.dead[2],
-        heroActionObj.dead[1],
-        heroActionObj.dead[0]
-    ];
+
+    let deathOfHeroSprite = [];
+    for( count=0; count < 3; count++ ) {
+        deathOfHeroSprite[count] = heroActionObj.death[count];
+    }
+
+    let deadHeroSprite = [];
+    let deadSequence = [0,1,2,1,0];
+    for( count=0; count<6; count++ ) {
+        if( count == 0 ) {
+            deadHeroSprite[count] = heroActionObj.death[2];
+        } else {
+            deadHeroSprite[count] = heroActionObj.dead[deadSequence[count-1]];
+        }
+    }
 
     // this is to allow the animation to be smooth.
     renderTime = 250;
