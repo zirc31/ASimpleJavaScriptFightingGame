@@ -375,7 +375,6 @@ function gameStart() {
         }
 
         function enemyWalk(mobsObj) {
-            // function enemyWalk(whatMobs,mobsObj) {
             let id = null;
             clearInterval(id);
 
@@ -659,9 +658,7 @@ function gameStart() {
     }
     function callButtonEventListener( getBtnEvent, getToggle, getHeroAction ) {
         ['mousedown','mouseup'].forEach( event => getBtnEvent.addEventListener( event, function() {
-            // btnAtkEvent.classList.toggle('btn-key-clicked');
             getBtnEvent.classList.toggle('btn-key-clicked');
-            // unstuckToggleExcept('Atk');
             unstuckToggleExcept(getToggle);
             if( heroObj.heroStatus == 'alive' ) {
                 switch (getToggle) {
@@ -708,7 +705,6 @@ function gameStart() {
         }
     }
     // will passed required value for the event listener to run.
-    // callKeyEventListener('',heroChar,btnClickEvent,playAreaPos);
     callKeyEventListener('',heroChar,passBtnClickEvent,playAreaPos);
 }
 
