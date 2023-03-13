@@ -632,84 +632,84 @@ function gameStart() {
     }
     generateEnemy(3,1); // start generate enemy.
 
-    // define btnClickEvent
-    let btnClickEvent = [0,0,0,0,0];
-
-    // event listener for mouseclick.
+    // Event listener for mouseclick.
     const btnAtkEvent = document.querySelector('.btn-atk');
-    btnClickEvent[0] = btnAtkEvent;
-    ['mousedown','mouseup'].forEach( event => btnAtkEvent.addEventListener( event, function(){
-        btnAtkEvent.classList.toggle('btn-key-clicked');
-        unstuckToggleExcept('Atk');
-        if( heroObj.heroStatus == 'alive' ) {
-            renderHeroAction('attack');
-        }
-    }));
-
     const btnUpEvent = document.querySelector('.btn-up');
-    btnClickEvent[1] = btnUpEvent;
-    ['mousedown','mouseup'].forEach( event => btnUpEvent.addEventListener( event, function(){
-        btnUpEvent.classList.toggle('btn-key-clicked');
-        unstuckToggleExcept('Up');
-        if( heroObj.heroStatus == 'alive' ) {
-            moveUp(heroChar,playAreaPos);
-            renderHeroWalk('');
-        }
-    }));
-
     const btnDownEvent = document.querySelector('.btn-down');
-    btnClickEvent[2] = btnDownEvent;
-    ['mousedown','mouseup'].forEach( event => btnDownEvent.addEventListener( event, function(){
-        btnDownEvent.classList.toggle('btn-key-clicked');
-        unstuckToggleExcept('Down');
-        if( heroObj.heroStatus == 'alive' ) {
-            moveDown(heroChar,playAreaPos);
-            renderHeroWalk('');
-        }    
-    }));
-
     const btnLeftEvent = document.querySelector('.btn-left');
-    btnClickEvent[3] = btnLeftEvent;
-    ['mousedown','mouseup'].forEach( event => btnLeftEvent.addEventListener( event, function(){
-        btnLeftEvent.classList.toggle('btn-key-clicked');
-        unstuckToggleExcept('Left');
-        if( heroObj.heroStatus == 'alive' ) {
-            moveLeft(heroChar,playAreaPos);
-            renderHeroWalk('left');
-        }
-    }));
-
     const btnRightEvent = document.querySelector('.btn-right');
-    btnClickEvent[4] = btnRightEvent;
-    ['mousedown','mouseup'].forEach( event => btnRightEvent.addEventListener( event, function(){
-        btnRightEvent.classList.toggle('btn-key-clicked');
-        unstuckToggleExcept('Right');
-        if( heroObj.heroStatus == 'alive' ) {
-            moveRight(heroChar,playAreaPos);
-            renderHeroWalk('right');
-        }    
-    }));
+
+    // define btnClickEvent
+    let passBtnClickEvent = [
+        btnAtkEvent, btnUpEvent, btnDownEvent, btnLeftEvent, btnRightEvent
+    ];
+    let passToggleAction = [
+        'attack','up','down','left','right'
+    ];
+    let passHeroAction;
+
+    // this call the function for different button event listener.
+    for ( let eventCounter = 0; eventCounter < passBtnClickEvent.length; eventCounter++ ) {
+        if ( eventCounter >= 1 && eventCounter <= 2 ) {
+            passHeroAction = '';
+        } else {
+            passHeroAction = passToggleAction[eventCounter];
+        }
+        callButtonEventListener( passBtnClickEvent[eventCounter], passToggleAction[eventCounter], passHeroAction );
+    }
+    function callButtonEventListener( getBtnEvent, getToggle, getHeroAction ) {
+        ['mousedown','mouseup'].forEach( event => getBtnEvent.addEventListener( event, function() {
+            // btnAtkEvent.classList.toggle('btn-key-clicked');
+            getBtnEvent.classList.toggle('btn-key-clicked');
+            // unstuckToggleExcept('Atk');
+            unstuckToggleExcept(getToggle);
+            if( heroObj.heroStatus == 'alive' ) {
+                switch (getToggle) {
+                    case 'up':
+                        moveUp(heroChar,playAreaPos);
+                        renderHeroWalk('');
+                    break;
+                    case 'down':
+                        moveDown(heroChar,playAreaPos);
+                        renderHeroWalk('');
+                    break;
+                    case 'left':
+                        moveLeft(heroChar,playAreaPos);
+                        renderHeroWalk('left');
+                    break;
+                    case 'right':
+                        moveRight(heroChar,playAreaPos);
+                        renderHeroWalk('right');
+                    break;
+                    default:
+                        renderHeroAction(getHeroAction);
+                    break;
+                }
+            }
+        }));
+    }
 
     // some are being stucked in the previous toggle, so to remove it, i have to call the remove class when a different button has been clicked
     function unstuckToggleExcept(action) {
-        if(action !== 'Up') {
+        if(action !== 'up') {
             btnUpEvent.classList.remove('btn-key-clicked');
         }
-        if(action !== 'Down') {
+        if(action !== 'down') {
             btnDownEvent.classList.remove('btn-key-clicked');
         }
-        if(action !== 'Left') {
+        if(action !== 'left') {
             btnLeftEvent.classList.remove('btn-key-clicked');
         }
-        if(action !== 'Right') {
+        if(action !== 'right') {
             btnRightEvent.classList.remove('btn-key-clicked');
         }
-        if(action !== 'Atk') {
+        if(action !== 'attack') {
             btnAtkEvent.classList.remove('btn-key-clicked');
         }
     }
     // will passed required value for the event listener to run.
-    callKeyEventListener('',heroChar,btnClickEvent,playAreaPos);
+    // callKeyEventListener('',heroChar,btnClickEvent,playAreaPos);
+    callKeyEventListener('',heroChar,passBtnClickEvent,playAreaPos);
 }
 
 // This will get the actual: top, left, right bottom, width, height
